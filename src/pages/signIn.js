@@ -11,7 +11,6 @@ class signIn extends React.Component {
             userName: 'id',
             password: 'ps',
         }
-        onUserNameChange
         this.onUserNameChange = this.onUserNameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
 
