@@ -7,16 +7,16 @@ class signIn extends React.Component {
     constructor(props) {
         super(props);
         this.status = {
-            searchTerm: 'aa',
             userName: 'id',
             password: 'ps',
         }
         this.onUserNameChange = this.onUserNameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.setSearchTopStories = this.setSearchTopStories.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
-        this.onSearchSubmit = this.onSearchSubmit.bind(this);
+
         this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     };
 
@@ -25,13 +25,14 @@ class signIn extends React.Component {
         console.log(searchTerm);
         request(`http://127.0.0.1:8080/signIn`)
             .then(response => response.json())
-            .then(result => this.setSearchTopStories(result))
+            .then(result => console.log(result))
+            // .then(result => this.setSearchTopStories(result))
             .catch(error => error);
     }
 
-    onSearchSubmit(event) {
-        const { searchTerm } = this.state;
-        this.fetchSearchTopStories(searchTerm);
+    onSubmit(event) {
+        const { userName, password } = this.state;
+        this.fetchSearchTopStories(userName, password);
         event.preventDefault();
     }
 
@@ -76,14 +77,7 @@ class signIn extends React.Component {
                         </tr>
                     </tbody>
                 </table>
-                <input className="submitButton" type="submit" value="로그인" onClick={signIn} />
-                <Search
-                    value={this.status.searchTerm}
-                    onChange={this.onSearchChange}
-                    onSubmit={this.onSearchSubmit}
-                >
-                    Search
-                </Search>
+                <input className="submitButton" type="submit" value="로그인" onClick={this.onSubmit} />
             </div>
         );
     }
