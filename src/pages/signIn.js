@@ -26,12 +26,13 @@ class signIn extends React.Component {
         })
             // .then(response => response.json())
             .then(result => {
-                if (result.data.ok) {
-                    this.setState({
-                        isAuthenticated: true,
-                    })
-                    sessionStorage.setItem('isAuthenti')
-                }
+                // if (result.data.ok) {
+                    // this.setState({
+                        // isAuthenticated: true,
+                    // })
+                    // sessionStorage.setItem('isAuthenti')
+                    console.log(result);
+                // }
             })
             // .then(result => this.setSearchTopStories(result))
             .catch(error => error);
@@ -54,7 +55,7 @@ class signIn extends React.Component {
     }
 
     render() {
-        const { isAuthenticated } = this.state
+        // const { isAuthenticated } = this.state
         return (
             <div>
                 <h1>로그인</h1>
@@ -79,7 +80,7 @@ class signIn extends React.Component {
                     </tbody>
                 </table>
                 <input className="submitButton" type="submit" value="로그인" onClick={this.onSubmit} />
-                {isAuthenticated && <Redirect to="/" />}
+                {/* {isAuthenticated && <Redirect to="/" />} */}
             </div>
         );
     }
