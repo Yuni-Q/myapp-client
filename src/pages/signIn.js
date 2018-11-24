@@ -1,31 +1,38 @@
 import React from 'react';
-import { request } from 'http';
-
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 class signIn extends React.Component {
 
     constructor(props) {
         super(props);
-        this.status = {
-            userName: 'id',
-            password: 'ps',
+        this.state = {
+            userName: '',
+            password: '',
+            isAuthenticated: false,
         }
-        this.onUserNameChange = this.onUserNameChange.bind(this);
-        this.onPasswordChange = this.onPasswordChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.setSearchTopStories = this.setSearchTopStories.bind(this);
-        this.onSearchChange = this.onSearchChange.bind(this);
-
         this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     };
 
 
-    fetchSearchTopStories(searchTerm) {
-        console.log(searchTerm);
-        request(`http://127.0.0.1:8080/signIn`)
-            .then(response => response.json())
-            .then(result => console.log(result))
+    fetchSearchTopStories(userName, password) {
+        axios.post('http://127.0.0.1:8080/signIn', {
+            userName,
+            password,
+        })
+            // .then(response => response.json())
+            .then(result => {
+                if (result.data.ok) {
+                    this.setState({
+                        isAuthenticated: true,
+                    })
+                    sessionStorage.setItem('isAuthenti')
+                }
+            })
             // .then(result => this.setSearchTopStories(result))
             .catch(error => error);
     }
@@ -40,20 +47,14 @@ class signIn extends React.Component {
         this.setState({ result });
     }
 
-    onSearchChange(event) {
-        this.setState({ searchTerm: event.target.value });
-
-    }
-
-    onUserNameChange(event) {
-        this.setState({ userName: event.target.value });
-    }
-
-    onPasswordChange(event) {
-        this.setState({ password: event.target.value });
+    handleChange = (e) => {
+        this.setState({
+          [e.target.name]: e.target.value
+        });
     }
 
     render() {
+        const { isAuthenticated } = this.state
         return (
             <div>
                 <h1>로그인</h1>
@@ -64,7 +65,7 @@ class signIn extends React.Component {
                                 <label htmlFor="userName">userName</label>
                             </td>
                             <td>
-                                <input type="text" name="userName" placeholder="userName" id="userName" onChange={this.onUserNameChange} value={this.status.userName} />
+                                <input type="text" name="userName" placeholder="userName" id="userName" onChange={this.handleChange} value={this.state.userName} />
                             </td>
                         </tr>
                         <tr>
@@ -72,12 +73,13 @@ class signIn extends React.Component {
                                 <label htmlFor="user_password">password</label>
                             </td>
                             <td>
-                                <input type="password" name="password" placeholder="password" id="password" onChange={this.onPasswordChange} value={this.status.password} />
+                                <input type="password" name="password" placeholder="password" id="password" onChange={this.handleChange} value={this.state.password} />
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <input className="submitButton" type="submit" value="로그인" onClick={this.onSubmit} />
+                {isAuthenticated && <Redirect to="/" />}
             </div>
         );
     }
