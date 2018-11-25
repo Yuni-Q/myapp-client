@@ -28,15 +28,14 @@ export default class Menu extends React.Component {
             // .then(response => response.json())
             .then(result => {
                 console.log(result);
-                // if (result.data.ok) {
-                //     this.setState({
-                //         isAuthenticated: true,
-                //     })
-                //     localStorage.clear();
-                //     // localStorage.removeItem('test');
-                //     console.log(result.data.result.token);
-                //     console.log(result);
-                // }
+                if (result.data.ok) {
+                    this.setState({
+                        isAuthenticated: true,
+                    })
+                    localStorage.clear();
+                    // localStorage.removeItem('test');
+
+                }
             })
             .catch(error => error);
     }
