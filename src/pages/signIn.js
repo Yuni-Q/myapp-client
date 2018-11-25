@@ -7,7 +7,7 @@ class signIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: '',
+            email: '',
             password: '',
             isAuthenticated: false,
         }
@@ -19,28 +19,29 @@ class signIn extends React.Component {
     };
 
 
-    fetchSearchTopStories(userName, password) {
+    fetchSearchTopStories(email, password) {
         axios.post('http://127.0.0.1:8080/signIn', {
-            userName,
+            email,
             password,
         })
             // .then(response => response.json())
             .then(result => {
-                // if (result.data.ok) {
-                    // this.setState({
-                        // isAuthenticated: true,
-                    // })
-                    // sessionStorage.setItem('isAuthenti')
+                if (result.data.ok) {
+                    this.setState({
+                        isAuthenticated: true,
+                    })
+                    localStorage.setItem('isAuthenticated', `Bearer ${result.data.result.token}`);
+                    localStorage.setItem('nickName', result.data.result.nickName);
+                    console.log(result.data.result.token);
                     console.log(result);
-                // }
+                }
             })
-            // .then(result => this.setSearchTopStories(result))
             .catch(error => error);
     }
 
     onSubmit(event) {
-        const { userName, password } = this.state;
-        this.fetchSearchTopStories(userName, password);
+        const { email, password } = this.state;
+        this.fetchSearchTopStories(email, password);
         event.preventDefault();
     }
 
@@ -55,7 +56,7 @@ class signIn extends React.Component {
     }
 
     render() {
-        // const { isAuthenticated } = this.state
+        const { isAuthenticated } = this.state
         return (
             <div>
                 <h1>로그인</h1>
@@ -63,10 +64,10 @@ class signIn extends React.Component {
                     <tbody>
                         <tr>
                             <td>
-                                <label htmlFor="userName">userName</label>
+                                <label htmlFor="email">email</label>
                             </td>
                             <td>
-                                <input type="text" name="userName" placeholder="userName" id="userName" onChange={this.handleChange} value={this.state.userName} />
+                                <input type="text" name="email" placeholder="email" id="email" onChange={this.handleChange} value={this.state.userName} />
                             </td>
                         </tr>
                         <tr>
@@ -80,7 +81,7 @@ class signIn extends React.Component {
                     </tbody>
                 </table>
                 <input className="submitButton" type="submit" value="로그인" onClick={this.onSubmit} />
-                {/* {isAuthenticated && <Redirect to="/" />} */}
+                {isAuthenticated && <Redirect to="/" />}
             </div>
         );
     }
