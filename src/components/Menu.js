@@ -22,7 +22,7 @@ class Menu extends React.Component {
     componentDidMount() {
         // :: 초기 값 설정
         this.setState({
-            isAuthenticated: this.props.isAuthenticated,
+            isAuthenticated: this.props.value,
         })
     };
 
@@ -39,9 +39,9 @@ class Menu extends React.Component {
                     this.setState({
                         isAuthenticated: false,
                     })
-                    localStorage.clear();
+                    // localStorage.clear();
                     // localStorage.removeItem('test');
-                    this.props.setValue(this.state.isAuthenticated);
+                    this.props.setValue(this.state.value);
                 }
             })
             .catch(error => error);
@@ -54,7 +54,7 @@ class Menu extends React.Component {
 
     render() {
         const { isAuthenticated } = this.state
-        console.log(isAuthenticated);
+        console.log('n', isAuthenticated);
         return (
             <>
                 <nav>
@@ -63,7 +63,7 @@ class Menu extends React.Component {
                         <li><NavLink exact to="/" activeStyle={activeStyle}>Home</NavLink></li>
                         <li><NavLink exact to="/about" activeStyle={activeStyle}>About</NavLink></li>
                         {
-                            isAuthenticated
+                            this.props.value
                                 ? (<React.Fragment><li><button onClick={this.onSubmit}>sign out</button></li></React.Fragment>)
                                 : (<React.Fragment><li><NavLink exact to="/signIn" activeStyle={activeStyle}>sign In</NavLink></li><li><NavLink exact to="/signUp" activeStyle={activeStyle}>sign Up</NavLink></li></React.Fragment>)
                         }
@@ -84,7 +84,7 @@ const SendsContainer = () => (
         {
             ({ state, actions }) => (
                 <Menu
-                    isAuthenticated={state.isAuthenticated}
+                    value={state.value}
                     setValue={actions.setValue}
                 />
             )

@@ -11,15 +11,17 @@ const { Provider, Consumer: SampleConsumer } = Context;
 // Provider 에서 state 를 사용하기 위해서 컴포넌트를 새로 만들어줍니다.
 class SampleProvider extends Component {
   state = {
-    isAuthenticated: false,
+    value: false,
   }
 
   // 여기서 actions 라는 객체는 우리가 임의로 설정하는 객체입니다.
   // 나중에 변화를 일으키는 함수들을 전달해줄때, 함수 하나하나 일일히 전달하는 것이 아니라,
   // 객체 하나로 한꺼번에 전달하기 위함입니다.
   actions = {
-    setValue: (isAuthenticated) => {
-      this.setState({ isAuthenticated });
+    setValue: (value) => {
+      console.log('qqq', value);
+      this.setState({ value: value });
+      console.log('www', this.state.value);
     }
   }
 

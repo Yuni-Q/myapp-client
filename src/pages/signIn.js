@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { SampleConsumer } from '../contexts/sample';
 
-class signIn extends React.Component {
+class SignIn extends React.Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +23,7 @@ class signIn extends React.Component {
     componentDidMount() {
         // :: 초기 값 설정
         this.setState({
-            isAuthenticated: this.props.isAuthenticated,
+            isAuthenticated: this.props.value,
         })
     }
 
@@ -42,6 +42,7 @@ class signIn extends React.Component {
                     localStorage.setItem('nickName', result.data.result.nickName);
                     console.log(result.data.result.token);
                     console.log(result);
+                    console.log('q', this.state.isAuthenticated);
                     this.props.setValue(this.state.isAuthenticated);
                 }
             })
@@ -101,8 +102,8 @@ const SendsContainer = () => (
     <SampleConsumer>
         {
             ({ state, actions }) => (
-                <signIn
-                    isAuthenticated={state.isAuthenticated}
+                <SignIn
+                    value={state.value}
                     setValue={actions.setValue}
                 />
             )
