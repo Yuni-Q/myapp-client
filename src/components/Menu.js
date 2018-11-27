@@ -13,11 +13,10 @@ class Menu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAuthenticated: false,
+            isAuthenticated: true,
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
-
     };
 
     componentDidMount() {
@@ -38,7 +37,7 @@ class Menu extends React.Component {
                 console.log(result);
                 if (result.data.ok) {
                     this.setState({
-                        isAuthenticated: true,
+                        isAuthenticated: false,
                     })
                     localStorage.clear();
                     // localStorage.removeItem('test');
@@ -55,6 +54,7 @@ class Menu extends React.Component {
 
     render() {
         const { isAuthenticated } = this.state
+        console.log(isAuthenticated);
         return (
             <>
                 <nav>
@@ -63,7 +63,7 @@ class Menu extends React.Component {
                         <li><NavLink exact to="/" activeStyle={activeStyle}>Home</NavLink></li>
                         <li><NavLink exact to="/about" activeStyle={activeStyle}>About</NavLink></li>
                         {
-                            localStorage.getItem('isAuthenticated')
+                            isAuthenticated
                                 ? (<React.Fragment><li><button onClick={this.onSubmit}>sign out</button></li></React.Fragment>)
                                 : (<React.Fragment><li><NavLink exact to="/signIn" activeStyle={activeStyle}>sign In</NavLink></li><li><NavLink exact to="/signUp" activeStyle={activeStyle}>sign Up</NavLink></li></React.Fragment>)
                         }
@@ -84,7 +84,7 @@ const SendsContainer = () => (
         {
             ({ state, actions }) => (
                 <Menu
-                    value={state.value}
+                    isAuthenticated={state.isAuthenticated}
                     setValue={actions.setValue}
                 />
             )

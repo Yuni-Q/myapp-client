@@ -11,7 +11,7 @@ const { Provider, Consumer: SampleConsumer } = Context;
 // Provider 에서 state 를 사용하기 위해서 컴포넌트를 새로 만들어줍니다.
 class SampleProvider extends Component {
   state = {
-    isAuthenticated: false
+    isAuthenticated: false,
   }
 
   // 여기서 actions 라는 객체는 우리가 임의로 설정하는 객체입니다.

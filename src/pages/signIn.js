@@ -12,6 +12,7 @@ class signIn extends React.Component {
             password: '',
             isAuthenticated: false,
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -95,50 +96,13 @@ class signIn extends React.Component {
     }
 }
 
-const Search = ({
-    value,
-    onChange,
-    onSubmit,
-    children
-}) =>
-    <form onSubmit={onSubmit}>
-        <input
-            type="text"
-            value={value}
-            onChange={onChange}
-        />
-        <button type="submit">
-            {children}
-        </button>
-    </form>
-
-class Button extends React.Component {
-    render() {
-        const {
-            onClick,
-            className = '',
-            children,
-        } = this.props;
-
-        return (
-            <button
-                onClick={onClick}
-                className={className}
-                type="button"
-            >
-                {children}
-            </button>
-        );
-    }
-}
-
 // :: Consumer 를 사용하여 context 값을 전달해준 컨테이너 컴포넌트
 const SendsContainer = () => (
     <SampleConsumer>
         {
             ({ state, actions }) => (
                 <signIn
-                    value={state.value}
+                    isAuthenticated={state.isAuthenticated}
                     setValue={actions.setValue}
                 />
             )
