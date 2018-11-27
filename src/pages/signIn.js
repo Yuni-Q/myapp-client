@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { SampleConsumer } from '../contexts/sample';
 
 class signIn extends React.Component {
 
@@ -18,6 +19,12 @@ class signIn extends React.Component {
         this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     };
 
+    componentDidMount() {
+        // :: 초기 값 설정
+        this.setState({
+            isAuthenticated: this.props.isAuthenticated,
+        })
+    }
 
     fetchSearchTopStories(email, password) {
         axios.post('http://127.0.0.1:8080/signIn', {
@@ -34,6 +41,7 @@ class signIn extends React.Component {
                     localStorage.setItem('nickName', result.data.result.nickName);
                     console.log(result.data.result.token);
                     console.log(result);
+                    this.props.setValue(this.state.isAuthenticated);
                 }
             })
             .catch(error => error);
@@ -51,7 +59,7 @@ class signIn extends React.Component {
 
     handleChange = (e) => {
         this.setState({
-          [e.target.name]: e.target.value
+            [e.target.name]: e.target.value
         });
     }
 
@@ -124,4 +132,19 @@ class Button extends React.Component {
     }
 }
 
-export default signIn;
+// :: Consumer 를 사용하여 context 값을 전달해준 컨테이너 컴포넌트
+const SendsContainer = () => (
+    <SampleConsumer>
+        {
+            ({ state, actions }) => (
+                <signIn
+                    value={state.value}
+                    setValue={actions.setValue}
+                />
+            )
+        }
+    </SampleConsumer>
+)
+
+// :: Sends 대신에 SendsContainer 를 내보내줌
+export default SendsContainer;
