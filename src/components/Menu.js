@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, /* Redirect */ } from 'react-router-dom';
 import './Menu.css';
 import axios from 'axios';
 import { SampleConsumer } from '../contexts/sample';
@@ -22,7 +22,7 @@ class Menu extends React.Component {
     componentDidMount() {
         // :: 초기 값 설정
         this.setState({
-            isAuthenticated: this.props.value,
+            isAuthenticated: this.props.isAuthenticated,
         })
     };
 
@@ -37,11 +37,11 @@ class Menu extends React.Component {
                 console.log(result);
                 if (result.data.ok) {
                     this.setState({
-                        isAuthenticated: false,
+                        isAuthenticated: true,
                     })
-                    // localStorage.clear();
+                    localStorage.clear();
                     // localStorage.removeItem('test');
-                    this.props.setValue(this.state.value);
+                    this.props.setValue(this.state.isAuthenticated);
                 }
             })
             .catch(error => error);
@@ -53,8 +53,8 @@ class Menu extends React.Component {
     }
 
     render() {
-        const { isAuthenticated } = this.state
-        console.log('n', isAuthenticated);
+        const isAuthenticated = this.props.isAuthenticated;
+        console.log('Menu', isAuthenticated);
         return (
             <>
                 <nav>
@@ -63,15 +63,13 @@ class Menu extends React.Component {
                         <li><NavLink exact to="/" activeStyle={activeStyle}>Home</NavLink></li>
                         <li><NavLink exact to="/about" activeStyle={activeStyle}>About</NavLink></li>
                         {
-                            this.props.value
+                            isAuthenticated
                                 ? (<React.Fragment><li><button onClick={this.onSubmit}>sign out</button></li></React.Fragment>)
                                 : (<React.Fragment><li><NavLink exact to="/signIn" activeStyle={activeStyle}>sign In</NavLink></li><li><NavLink exact to="/signUp" activeStyle={activeStyle}>sign Up</NavLink></li></React.Fragment>)
                         }
                     </ul>
-
                 </nav>
                 <hr />
-                {isAuthenticated && <Redirect to="/" />}
             </>
 
         );
@@ -84,7 +82,7 @@ const SendsContainer = () => (
         {
             ({ state, actions }) => (
                 <Menu
-                    value={state.value}
+                    isAuthenticated={state.isAuthenticated}
                     setValue={actions.setValue}
                 />
             )

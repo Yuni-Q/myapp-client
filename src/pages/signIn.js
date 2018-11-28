@@ -23,8 +23,9 @@ class SignIn extends React.Component {
     componentDidMount() {
         // :: 초기 값 설정
         this.setState({
-            isAuthenticated: this.props.value,
+            isAuthenticated: this.props.isAuthenticated,
         })
+        console.log('componentDidMount', this.props.isAuthenticated);
     }
 
     fetchSearchTopStories(email, password) {
@@ -37,12 +38,11 @@ class SignIn extends React.Component {
                 if (result.data.ok) {
                     this.setState({
                         isAuthenticated: true,
-                    })
+                    });
                     localStorage.setItem('isAuthenticated', `Bearer ${result.data.result.token}`);
                     localStorage.setItem('nickName', result.data.result.nickName);
                     console.log(result.data.result.token);
                     console.log(result);
-                    console.log('q', this.state.isAuthenticated);
                     this.props.setValue(this.state.isAuthenticated);
                 }
             })
@@ -66,7 +66,8 @@ class SignIn extends React.Component {
     }
 
     render() {
-        const { isAuthenticated } = this.state
+        const isAuthenticated = this.props.isAuthenticated;
+        // console.log('SignIn', isAuthenticated);
         return (
             <div>
                 <h1>로그인</h1>
@@ -103,7 +104,7 @@ const SendsContainer = () => (
         {
             ({ state, actions }) => (
                 <SignIn
-                    value={state.value}
+                    isAuthenticated={state.isAuthenticated}
                     setValue={actions.setValue}
                 />
             )

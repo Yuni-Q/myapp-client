@@ -1,7 +1,7 @@
 import React from 'react';
-import queryString from 'query-string';
+// import queryString from 'query-string';
 
-const About = ({location, match}) => {
+const About = ({ location, match }) => {
     // const query = queryString.parse(location.search);
 
     // const detail = query.detail === 'true';
