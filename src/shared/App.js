@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Home, About, SignIn, signUp } from 'pages';
+import { Home, About, SignIn, SignUp } from 'pages';
 import Menu from 'components/Menu';
 import { SampleProvider } from '../contexts/sample';
 
@@ -16,7 +16,7 @@ class App extends Component {
                     <Route path="/about" component={About} />
                     {/* </Switch> */}
                     <Route path="/signIn" component={SignIn} />
-                    <Route path="/signUp" component={signUp} />
+                    <Route path="/signUp" component={SignUp} />
                 </div>
             </SampleProvider>
         );
