@@ -44,6 +44,12 @@ class SignIn extends React.Component {
                     console.log(result.data.result.token);
                     console.log(result);
                     this.props.setValue(this.state.isAuthenticated);
+                } else {
+                    this.setState({
+                        isAuthenticated: false,
+                    });
+                    localStorage.clear();
+                    this.props.setValue(this.state.isAuthenticated);
                 }
             })
             .catch(error => error);
