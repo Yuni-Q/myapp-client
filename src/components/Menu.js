@@ -37,7 +37,7 @@ class Menu extends React.Component {
                 console.log(result);
                 if (result.data.ok) {
                     this.setState({
-                        isAuthenticated: true,
+                        isAuthenticated: false,
                     })
                     localStorage.clear();
                     // localStorage.removeItem('test');
