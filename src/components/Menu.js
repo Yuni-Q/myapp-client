@@ -54,7 +54,6 @@ class Menu extends React.Component {
 
     render() {
         const isAuthenticated = this.props.isAuthenticated;
-        console.log('Menu', isAuthenticated);
         return (
             <>
                 <nav>
