@@ -1,7 +1,8 @@
 
 import React from 'react';
 import axios from 'axios';
-import { SampleConsumer } from '../contexts/sample';
+// import { SampleConsumer } from '../contexts/sample';
+import { Redirect } from 'react-router-dom';
 // import { Link, Route } from 'react-router-dom';
 
 class SignUp extends React.Component {
@@ -10,6 +11,9 @@ class SignUp extends React.Component {
         this.state = {
             email: '',
             password: '',
+            signUp: false,
+            error: false,
+            errorMessage: '',
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,21 +34,16 @@ class SignUp extends React.Component {
         })
             // .then(response => response.json())
             .then(result => {
+                console.log(result.data);
                 if (result.data.ok) {
                     this.setState({
-                        isAuthenticated: true,
+                        signUp: true,
                     });
-                    localStorage.setItem('isAuthenticated', `Bearer ${result.data.result.token}`);
-                    localStorage.setItem('nickName', result.data.result.nickName);
-                    console.log(result.data.result.token);
-                    console.log(result);
-                    this.props.setValue(this.state.isAuthenticated);
                 } else {
                     this.setState({
-                        isAuthenticated: false,
+                        error: true,
+                        errorMessage: result.data.error,
                     });
-                    localStorage.clear();
-                    this.props.setValue(this.state.isAuthenticated);
                 }
             })
             .catch(error => error);
@@ -68,25 +67,33 @@ class SignUp extends React.Component {
     render() {
     return (
         <>
-         <table class="login">
-            <tr>
-                <td>
-                    <label for="userName">userName</label>
-                </td>
-                <td>
-                <input type="text" name="email" placeholder="email" id="email" onChange={this.handleChange} value={this.state.userName} />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">password</label>
-                </td>
-                <td>
-                <input type="password" name="password" placeholder="password" id="password" onChange={this.handleChange} value={this.state.password} />
-                </td>
-            </tr>
+        <h1>회원가입</h1>
+        {
+            this.state.error ? (<div style={{ color: 'red' }}>{this.state.errorMessage}</div>): (null) 
+        }
+         <table className="login">
+            <tbody>
+                <tr>
+                    <td>
+                        <label htmlFor="userName">userName</label>
+                    </td>
+                    <td>
+                    <input type="text" name="email" placeholder="email" id="email" onChange={this.handleChange} value={this.state.userName} />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label htmlFor="password">password</label>
+                    </td>
+                    <td>
+                    <input type="password" name="password" placeholder="password" id="password" onChange={this.handleChange} value={this.state.password} />
+                    </td>
+                </tr>
+            </tbody>
         </table>
         <input className="submitButton" type="submit" value="회원가입" onClick={this.onSubmit} />
+        {console.log('signUp',this.state.signUp)}
+        {this.state.signUp && <Redirect to="/" />}
         </>
     );
 };

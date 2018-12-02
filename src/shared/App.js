@@ -1,6 +1,7 @@
+
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Home, About, SignIn, SignUp } from 'pages';
+import { Home, About, SignIn, SignUp, Boards, Board } from 'pages';
 import Menu from 'components/Menu';
 import { SampleProvider } from '../contexts/sample';
 
@@ -17,6 +18,8 @@ class App extends Component {
                     {/* </Switch> */}
                     <Route path="/signIn" component={SignIn} />
                     <Route path="/signUp" component={SignUp} />
+                    <Route exact path="/boards" component={Boards} />
+                    <Route exact path="/boards/:boardId" component={Board} />
                 </div>
             </SampleProvider>
         );

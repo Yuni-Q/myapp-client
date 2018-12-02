@@ -26,7 +26,7 @@ class SignIn extends React.Component {
         this.setState({
             isAuthenticated: this.props.isAuthenticated,
         })
-        console.log('componentDidMount', this.props.isAuthenticated);
+        console.log('componentDidMount', this.props.userId);
     }
 
     fetchSearchTopStories(email, password) {
@@ -43,8 +43,8 @@ class SignIn extends React.Component {
                     localStorage.setItem('isAuthenticated', `Bearer ${result.data.result.token}`);
                     localStorage.setItem('nickName', result.data.result.nickName);
                     console.log(result.data.result.token);
-                    console.log(result);
-                    this.props.setValue(this.state.isAuthenticated);
+                    console.log(result.data.result._id);
+                    this.props.setValue(this.state.isAuthenticated, result.data.result._id);
                 } else {
                     this.setState({
                         isAuthenticated: false,
@@ -112,6 +112,7 @@ const SendsContainer = () => (
             ({ state, actions }) => (
                 <SignIn
                     isAuthenticated={state.isAuthenticated}
+                    userId={state.userId}
                     setValue={actions.setValue}
                 />
             )

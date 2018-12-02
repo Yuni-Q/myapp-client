@@ -63,9 +63,26 @@ class Menu extends React.Component {
                         <li><NavLink exact to="/about" activeStyle={activeStyle}>About</NavLink></li>
                         {
                             isAuthenticated
-                                ? (<React.Fragment><li><button onClick={this.onSubmit}>sign out</button></li></React.Fragment>)
-                                : (<React.Fragment><li><NavLink exact to="/signIn" activeStyle={activeStyle}>sign In</NavLink></li><li><NavLink exact to="/signUp" activeStyle={activeStyle}>sign Up</NavLink></li></React.Fragment>)
+                                ? 
+                                    (<>
+                                        <li>
+                                            <NavLink exact to="/boards" activeStyle={activeStyle}>boards</NavLink>
+                                        </li>
+                                        <li>
+                                            <button onClick={this.onSubmit}>sign out</button>
+                                        </li>
+                                    </>)
+                                : 
+                                    (<>
+                                        <li>
+                                            <NavLink exact to="/signIn" activeStyle={activeStyle}>sign In</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink exact to="/signUp" activeStyle={activeStyle}>sign Up</NavLink>
+                                        </li>
+                                    </>)
                         }
+                        
                     </ul>
                 </nav>
                 <hr />
