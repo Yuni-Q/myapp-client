@@ -42,9 +42,10 @@ class SignIn extends React.Component {
                     });
                     localStorage.setItem('isAuthenticated', `Bearer ${result.data.result.token}`);
                     localStorage.setItem('nickName', result.data.result.nickName);
+                    localStorage.setItem('userId', result.data.result._id);
                     console.log(result.data.result.token);
                     console.log(result.data.result._id);
-                    this.props.setValue(this.state.isAuthenticated, result.data.result._id);
+                    this.props.setValue(this.state.isAuthenticated);
                 } else {
                     this.setState({
                         isAuthenticated: false,
@@ -112,7 +113,6 @@ const SendsContainer = () => (
             ({ state, actions }) => (
                 <SignIn
                     isAuthenticated={state.isAuthenticated}
-                    userId={state.userId}
                     setValue={actions.setValue}
                 />
             )

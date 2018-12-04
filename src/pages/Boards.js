@@ -2,20 +2,27 @@
 import React from 'react';
 import axios from 'axios';
 // import { SampleConsumer } from '../contexts/sample';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Link, Route } from 'react-router-dom';
 
 class Boards extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            userId: localStorage.getItem('userId'),
             boards: [],
+            id: null,
+            cteate: false,
+            update: false,
+            delete: false,
             error: false,
             errorMessage: '',
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.onCreate = this.onCreate.bind(this);
+        this.onUpdate = this.onUpdate.bind(this);
+        this.onDelete = this.onDelete.bind(this);
 
         this.setSearchTopStories = this.setSearchTopStories.bind(this);
         this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
@@ -62,10 +69,42 @@ class Boards extends React.Component {
             .catch(error => error);
     }
 
-    onSubmit(event) {
-        const { email, password } = this.state;
-        this.fetchSearchTopStories(email, password);
+    onCreate(event) {
+        this.setState({
+            create: true,
+        })
         event.preventDefault();
+    }
+
+    onUpdate(id) {
+        this.setState({
+            update: true,
+            id,
+        })
+    }
+
+    onDelete(id) {
+        axios.delete(`http://127.0.0.1:8080/posts/${id}`, {
+            headers: { // 요청 헤더
+              authorization: localStorage.getItem('isAuthenticated'),
+            },
+          },)
+            // .then(response => response.json())
+            .then(result => {
+                console.log(result.data);
+                if (result.data.ok) {
+                    this.setState({
+                        delete: true,
+                        boards: this.state.boards.filter(board => board._id !== id)
+                    });
+                } else {
+                    this.setState({
+                        error: true,
+                        errorMessage: result.data.error,
+                    });
+                }
+            })
+            .catch(error => error);
     }
 
     setSearchTopStories(result) {
@@ -107,21 +146,24 @@ class Boards extends React.Component {
                                 { board.date }
                             </td>
                             <td>
-                                <Link to={`/boards/${board._id}`}>Home</Link>
+                                <Link to={`/boards/${board._id}`}>Show</Link>
                                 {/* { <a href="/posts/<%= posts[i]._id %>">Show</a> } */}
                             </td>
                             <td>
-                                { <a href="/posts/<%= posts[i]._id %>/edit">Edit</a> }
+                                {board.userId === this.state.userId &&
+                                    <input type="submit" value="글수정" onClick={() => this.onUpdate(board._id)} />}
                             </td>
                             <td>
-                                { <button onClick={this.onSubmit}>Delete</button> }
-                                {/* { <button onClick="deletePost('<%= posts[i]._id %>')">Delete</button> } */}
+                                {board.userId === this.state.userId && 
+                                    <input type="submit" value="글삭제" onClick={() => this.onDelete(board._id)} />}
                             </td>
                         </tr>)
                 }) }
                 </tbody>
             </table>
-            <input className="submitButton" type="submit" value="회원가입" onClick={this.onSubmit} />
+            <input className="submitButton" type="submit" value="글쓰기" onClick={this.onCreate} />
+            {this.state.create && <Redirect to="/boards/board/create" />}
+            {this.state.update && <Redirect to={`/boards/${this.state.id}/update`} />}
             </>
         )
     }

@@ -3,6 +3,7 @@ import { NavLink, /* Redirect */ } from 'react-router-dom';
 import './Menu.css';
 import axios from 'axios';
 import { SampleConsumer } from '../contexts/sample';
+import { Redirect } from 'react-router-dom';
 // Fragments
 
 const activeStyle = {
@@ -86,6 +87,7 @@ class Menu extends React.Component {
                     </ul>
                 </nav>
                 <hr />
+                {!isAuthenticated && <Redirect to="/signIn" />}
             </>
 
         );

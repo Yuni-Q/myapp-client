@@ -15,7 +15,6 @@ class SampleProvider extends Component {
     if (localStorage.getItem('isAuthenticated')) {
       this.setState({
         isAuthenticated: true,
-        userId: null,
       })
     }
   }
@@ -27,8 +26,8 @@ class SampleProvider extends Component {
   // 나중에 변화를 일으키는 함수들을 전달해줄때, 함수 하나하나 일일히 전달하는 것이 아니라,
   // 객체 하나로 한꺼번에 전달하기 위함입니다.
   actions = {
-    setValue: (isAuthenticated, userId) => {
-      this.setState({ isAuthenticated, userId });
+    setValue: (isAuthenticated) => {
+      this.setState({ isAuthenticated });
     }
   }
 
