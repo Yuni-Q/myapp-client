@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Home, About, SignIn, SignUp, Boards, Board, BoardCreate, BoardUpdate } from 'pages';
+import { Home, About, SignIn, SignUp, Boards, Board, BoardCreate, BoardUpdate, BusStop } from 'pages';
 import Menu from 'components/Menu';
 import { SampleProvider } from '../contexts/sample';
 
@@ -20,6 +20,7 @@ class App extends Component {
                     <Route path="/signUp" component={SignUp} />
                     
                     <Route exact path="/boards" component={Boards} />
+                    <Route exact path="/busStop" component={BusStop} />
                     
                     <Route exact path="/boards/board/create" component={BoardCreate} />
                     <Route exact path="/boards/:boardId/update" component={BoardUpdate} />

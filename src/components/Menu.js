@@ -70,6 +70,9 @@ class Menu extends React.Component {
                                             <NavLink exact to="/boards" activeStyle={activeStyle}>boards</NavLink>
                                         </li>
                                         <li>
+                                            <NavLink exact to="/busStop" activeStyle={activeStyle}>busStop</NavLink>
+                                        </li>
+                                        <li>
                                             <button onClick={this.onSubmit}>sign out</button>
                                         </li>
                                     </>)

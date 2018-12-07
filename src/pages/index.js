@@ -6,3 +6,4 @@ export { default as Boards } from './Boards';
 export { default as Board } from './Board';
 export { default as BoardCreate } from './BoardCreate';
 export { default as BoardUpdate } from './BoardUpdate';
+export { default as BusStop } from './BusStop';
